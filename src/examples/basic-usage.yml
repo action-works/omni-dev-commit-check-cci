@@ -1,0 +1,10 @@
+description: Basic commit check with Anthropic Claude
+usage:
+  version: 2.1
+  orbs:
+    omni-dev: action-works/omni-dev-commit-check@1.0.0
+  workflows:
+    commit-validation:
+      jobs:
+        - omni-dev/commit-check:
+            context: anthropic-credentials

@@ -1,0 +1,12 @@
+description: Using OpenAI instead of Anthropic
+usage:
+  version: 2.1
+  orbs:
+    omni-dev: action-works/omni-dev-commit-check@1.0.0
+  workflows:
+    commit-validation:
+      jobs:
+        - omni-dev/commit-check:
+            use-openai: true
+            model: gpt-4.1
+            context: openai-credentials
