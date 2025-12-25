@@ -2,9 +2,8 @@ version: 2.1
 
 orbs:
   orb-tools: circleci/orb-tools@12.1
-  # Use the dev version of the orb for integration testing
-  # This references the dev orb published by orb-tools/publish in this workflow
-  omni-dev: action-works/omni-dev-commit-check@dev:alpha
+  # Use the published production orb for integration testing
+  omni-dev: action-works/omni-dev-commit-check@1.0.0
 
 filters: &filters
   tags:
