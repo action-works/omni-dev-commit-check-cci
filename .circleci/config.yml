@@ -2,6 +2,9 @@ version: 2.1
 
 orbs:
   orb-tools: circleci/orb-tools@12.1
+  # Use the dev version of the orb for integration testing
+  # This references the dev orb published by orb-tools/publish in this workflow
+  omni-dev: action-works/omni-dev-commit-check@dev:alpha
 
 filters: &filters
   tags:
@@ -26,12 +29,25 @@ workflows:
           orb_name: action-works/omni-dev-commit-check
           vcs_type: << pipeline.project.type >>
           pub_type: dev
+          tag: alpha
           requires:
             - orb-tools/lint
             - orb-tools/review
             - orb-tools/pack
           context: orb-publishing
           filters: *filters
+      # Use the orb itself to validate commit messages
+      - omni-dev/commit-check:
+          name: commit-check
+          verbose: true
+          requires:
+            - orb-tools/publish
+          context: anthropic-credentials
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              ignore: /.*/
 
   release:
     jobs:
