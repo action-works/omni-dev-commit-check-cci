@@ -1,8 +1,11 @@
 version: 2.1
 
 description: |
-  Validate commit messages against project guidelines using AI-powered analysis
-  from omni-dev. Supports multiple AI providers (Anthropic Claude, OpenAI, Ollama, AWS Bedrock).
+  Validate commit messages against project guidelines using AI-powered analysis from omni-dev.
+  This orb installs the omni-dev CLI tool and runs commit message validation as part of your
+  CircleCI pipeline. It supports multiple AI providers including Anthropic Claude, OpenAI,
+  Ollama for local inference, and AWS Bedrock. Configure commit ranges, custom guidelines,
+  output formats, and strict mode to enforce your team's commit message standards automatically.
 
 display:
   home_url: https://github.com/rust-works/omni-dev
