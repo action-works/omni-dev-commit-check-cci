@@ -47,15 +47,15 @@ workflows:
                 - main
                 - master
 
-  # release:
-  #   jobs:
-  #     - orb-tools/pack:
-  #         filters: *release-filters
-  #     - orb-tools/publish:
-  #         orb_name: action-works/omni-dev-commit-check
-  #         vcs_type: github
-  #         pub_type: production
-  #         requires:
-  #           - orb-tools/pack
-  #         context: orb-publishing
-  #         filters: *release-filters
+  release:
+    jobs:
+      - orb-tools/pack:
+          filters: *release-filters
+      - orb-tools/publish:
+          orb_name: action-works/omni-dev-commit-check
+          vcs_type: github
+          pub_type: production
+          requires:
+            - orb-tools/pack
+          context: orb-publishing
+          filters: *release-filters
