@@ -40,35 +40,35 @@ Set up your API keys as environment variables in a CircleCI context or project s
 
 Installs the omni-dev CLI tool.
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `version` | string | `latest` | omni-dev version to install |
-| `cache` | boolean | `true` | Whether to cache the binary |
+| Parameter   | Type    | Default  | Description                 |
+|-------------|---------|----------|-----------------------------|
+| `version`   | string  | `latest` | omni-dev version to install |
+| `cache`     | boolean | `true`   | Whether to cache the binary |
 
 ### check
 
 Runs commit message validation.
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `use-openai` | boolean | `false` | Use OpenAI instead of Anthropic |
-| `use-ollama` | boolean | `false` | Use Ollama for local inference |
-| `use-bedrock` | boolean | `false` | Use AWS Bedrock for Claude |
-| `model` | string | `""` | AI model to use |
-| `ollama-base-url` | string | `""` | Ollama server URL |
-| `ollama-model` | string | `""` | Ollama model name |
-| `bedrock-base-url` | string | `""` | AWS Bedrock endpoint URL |
-| `commit-range` | string | `""` | Commit range to check (e.g., `HEAD~5..HEAD`) |
-| `base-branch` | string | `""` | Base branch to compare against |
-| `guidelines` | string | `""` | Path to custom commit guidelines file |
-| `context-dir` | string | `.omni-dev/` | Context directory for loading guidelines |
-| `format` | enum | `text` | Output format: `text`, `json`, or `yaml` |
-| `strict` | boolean | `false` | Exit with error if warnings found |
-| `quiet` | boolean | `false` | Suppress info-level output |
-| `verbose` | boolean | `false` | Show detailed analysis |
-| `show-passing` | boolean | `false` | Include passing commits in output |
-| `no-suggestions` | boolean | `false` | Skip generating suggestions |
-| `batch-size` | integer | `4` | Commits per AI request |
+| Parameter          | Type    | Default      | Description                                  |
+|--------------------|---------|--------------|----------------------------------------------|
+| `use-openai`       | boolean | `false`      | Use OpenAI instead of Anthropic              |
+| `use-ollama`       | boolean | `false`      | Use Ollama for local inference               |
+| `use-bedrock`      | boolean | `false`      | Use AWS Bedrock for Claude                   |
+| `model`            | string  | `""`         | AI model to use                              |
+| `ollama-base-url`  | string  | `""`         | Ollama server URL                            |
+| `ollama-model`     | string  | `""`         | Ollama model name                            |
+| `bedrock-base-url` | string  | `""`         | AWS Bedrock endpoint URL                     |
+| `commit-range`     | string  | `""`         | Commit range to check (e.g., `HEAD~5..HEAD`) |
+| `base-branch`      | string  | `""`         | Base branch to compare against               |
+| `guidelines`       | string  | `""`         | Path to custom commit guidelines file        |
+| `context-dir`      | string  | `.omni-dev/` | Context directory for loading guidelines     |
+| `format`           | enum    | `text`       | Output format: `text`, `json`, or `yaml`     |
+| `strict`           | boolean | `false`      | Exit with error if warnings found            |
+| `quiet`            | boolean | `false`      | Suppress info-level output                   |
+| `verbose`          | boolean | `false`      | Show detailed analysis                       |
+| `show-passing`     | boolean | `false`      | Include passing commits in output            |
+| `no-suggestions`   | boolean | `false`      | Skip generating suggestions                  |
+| `batch-size`       | integer | `4`          | Commits per AI request                       |
 
 ## Jobs
 
@@ -78,10 +78,10 @@ A complete job that checks out code, installs dependencies, and runs the commit 
 
 Accepts all parameters from the `check` command plus:
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `executor` | executor | `default` | Executor to use |
-| `version` | string | `latest` | omni-dev version to install |
+| Parameter  | Type     | Default   | Description               |
+|------------|----------|-----------|---------------------------|
+| `executor` | executor | `default` | Executor to use           |
+| `version`  | string   | `latest`  | omni-dev version to install |
 
 ## Examples
 
@@ -202,12 +202,12 @@ workflows:
 
 ## Exit Codes
 
-| Code | Meaning |
-|------|---------|
-| 0 | Success: All commits pass |
-| 1 | One or more commits have errors |
-| 2 | Warnings found (only with `strict: true`) |
-| 3 | No commits found in range |
+| Code | Meaning                                  |
+|------|------------------------------------------|
+| 0    | Success: All commits pass                |
+| 1    | One or more commits have errors          |
+| 2    | Warnings found (only with `strict: true`) |
+| 3    | No commits found in range                |
 
 ## Custom Guidelines
 
@@ -218,11 +218,11 @@ Create a `.omni-dev/commit-guidelines.md` file in your repository:
 
 ## Severity Levels
 
-| Severity | Sections |
-|----------|----------|
+| Severity | Sections             |
+|----------|----------------------|
 | error    | Format, Subject Line |
-| warning  | Content, Body |
-| info     | Style |
+| warning  | Content, Body        |
+| info     | Style                |
 
 ## Format
 - Use conventional commit format: `type(scope): description`
@@ -243,14 +243,14 @@ Create a `.omni-dev/commit-guidelines.md` file in your repository:
 ### Validating the Orb
 
 ```bash
-circleci orb validate src/orb.yml
+circleci orb validate src/@orb.yml
 ```
 
 ### Publishing (for maintainers)
 
 ```bash
 # Development version
-circleci orb publish src/orb.yml action-works/omni-dev-commit-check@dev:alpha
+circleci orb publish src/@orb.yml action-works/omni-dev-commit-check@dev:alpha
 
 # Production version
 circleci orb publish promote action-works/omni-dev-commit-check@dev:alpha patch
