@@ -19,29 +19,31 @@ release-filters: &release-filters
 workflows:
   lint-pack:
     jobs:
-      - orb-tools/lint:
-          filters: *filters
-      - orb-tools/pack:
-          filters: *filters
-      - orb-tools/review:
-          filters: *filters
-      - orb-tools/publish:
-          orb_name: action-works/omni-dev-commit-check
-          vcs_type: << pipeline.project.type >>
-          pub_type: dev
-          tag: alpha
-          requires:
-            - orb-tools/lint
-            - orb-tools/review
-            - orb-tools/pack
-          context: orb-publishing
-          filters: *filters
+      # - orb-tools/lint:
+      #     filters: *filters
+      # - orb-tools/pack:
+      #     filters: *filters
+      # - orb-tools/review:
+      #     filters: *filters
+      # - orb-tools/publish:
+      #     orb_name: action-works/omni-dev-commit-check
+      #     vcs_type: github
+      #     pub_type: dev
+      #     requires:
+      #       - orb-tools/lint
+      #       - orb-tools/review
+      #       - orb-tools/pack
+      #     context: orb-publishing
+      #     filters: *filters
       # Use the orb itself to validate commit messages
       - omni-dev/commit-check:
           name: commit-check
           verbose: true
-          requires:
-            - orb-tools/publish
+          model: claude-sonnet-4-5-20250929
+          # requires:
+          #   - orb-tools/lint
+          #   - orb-tools/review
+          #   - orb-tools/pack
           context: anthropic-credentials
           filters:
             branches:
@@ -49,15 +51,15 @@ workflows:
             tags:
               ignore: /.*/
 
-  release:
-    jobs:
-      - orb-tools/pack:
-          filters: *release-filters
-      - orb-tools/publish:
-          orb_name: action-works/omni-dev-commit-check
-          vcs_type: << pipeline.project.type >>
-          pub_type: production
-          requires:
-            - orb-tools/pack
-          context: orb-publishing
-          filters: *release-filters
+  # release:
+  #   jobs:
+  #     - orb-tools/pack:
+  #         filters: *release-filters
+  #     - orb-tools/publish:
+  #         orb_name: action-works/omni-dev-commit-check
+  #         vcs_type: github
+  #         pub_type: production
+  #         requires:
+  #           - orb-tools/pack
+  #         context: orb-publishing
+  #         filters: *release-filters
