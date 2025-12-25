@@ -1,0 +1,26 @@
+description: Using commands separately for more control
+usage:
+  version: 2.1
+  orbs:
+    omni-dev: action-works/omni-dev-commit-check@1.0.0
+    rust: circleci/rust@1.6.1
+  jobs:
+    custom-check:
+      docker:
+        - image: cimg/rust:1.83
+      steps:
+        - checkout
+        - rust/install
+        - omni-dev/install:
+            version: "0.12.0"
+        - omni-dev/check:
+            format: json
+            verbose: true
+        - run:
+            name: Process results
+            command: echo "Custom post-processing here"
+  workflows:
+    commit-validation:
+      jobs:
+        - custom-check:
+            context: anthropic-credentials

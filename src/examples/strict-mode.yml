@@ -1,0 +1,12 @@
+description: Strict mode with custom guidelines
+usage:
+  version: 2.1
+  orbs:
+    omni-dev: action-works/omni-dev-commit-check@1.0.0
+  workflows:
+    commit-validation:
+      jobs:
+        - omni-dev/commit-check:
+            strict: true
+            guidelines: .github/commit-guidelines.md
+            context: anthropic-credentials

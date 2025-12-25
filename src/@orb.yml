@@ -1,11 +1,13 @@
 version: 2.1
 
 description: |
-  Validate commit messages against project guidelines using AI-powered analysis from omni-dev.
-  This orb installs the omni-dev CLI tool and runs commit message validation as part of your
-  CircleCI pipeline. It supports multiple AI providers including Anthropic Claude, OpenAI,
-  Ollama for local inference, and AWS Bedrock. Configure commit ranges, custom guidelines,
-  output formats, and strict mode to enforce your team's commit message standards automatically.
+  Validate commit messages against project guidelines using AI-powered
+  analysis from omni-dev. This orb installs the omni-dev CLI tool and
+  runs commit message validation as part of your CircleCI pipeline.
+  It supports multiple AI providers including Anthropic Claude, OpenAI,
+  Ollama for local inference, and AWS Bedrock. Configure commit ranges,
+  custom guidelines, output formats, and strict mode to enforce your
+  team's commit message standards automatically.
 
 display:
   home_url: https://github.com/rust-works/omni-dev
@@ -77,7 +79,7 @@ commands:
       model:
         type: string
         default: ""
-        description: "AI model to use (e.g., claude-sonnet-4-5-20250929, gpt-4.1)"
+        description: "AI model to use (e.g., claude-sonnet-4-5-20250929)"
 
       # Ollama-specific
       ollama-base-url:
@@ -205,7 +207,9 @@ commands:
               ARGS+=("$COMMIT_RANGE")
             elif [ -n "$BASE_BRANCH" ]; then
               ARGS+=("$BASE_BRANCH..HEAD")
-            elif [ -n "$CIRCLE_BRANCH" ] && [ "$CIRCLE_BRANCH" != "main" ] && [ "$CIRCLE_BRANCH" != "master" ]; then
+            elif [ -n "$CIRCLE_BRANCH" ] && \
+                 [ "$CIRCLE_BRANCH" != "main" ] && \
+                 [ "$CIRCLE_BRANCH" != "master" ]; then
               # Try to detect base branch in PR context
               if git rev-parse --verify origin/main &>/dev/null; then
                 ARGS+=("origin/main..HEAD")
@@ -245,9 +249,9 @@ commands:
 jobs:
   commit-check:
     description: |
-      Run AI-powered commit message validation.
-      Requires ANTHROPIC_API_KEY, OPENAI_API_KEY, or appropriate provider credentials
-      to be set as environment variables in CircleCI project settings.
+      Run AI-powered commit message validation. Requires ANTHROPIC_API_KEY,
+      OPENAI_API_KEY, or appropriate provider credentials to be set as
+      environment variables in CircleCI project settings.
     parameters:
       # Executor configuration
       executor:
@@ -350,72 +354,3 @@ executors:
     docker:
       - image: cimg/rust:1.83
     resource_class: medium
-
-examples:
-  basic-usage:
-    description: Basic commit check with Anthropic Claude
-    usage:
-      version: 2.1
-      orbs:
-        omni-dev: action-works/omni-dev-commit-check@1.0.0
-      workflows:
-        commit-validation:
-          jobs:
-            - omni-dev/commit-check:
-                context: anthropic-credentials
-
-  openai-usage:
-    description: Using OpenAI instead of Anthropic
-    usage:
-      version: 2.1
-      orbs:
-        omni-dev: action-works/omni-dev-commit-check@1.0.0
-      workflows:
-        commit-validation:
-          jobs:
-            - omni-dev/commit-check:
-                use-openai: true
-                model: gpt-4.1
-                context: openai-credentials
-
-  strict-mode:
-    description: Strict mode with custom guidelines
-    usage:
-      version: 2.1
-      orbs:
-        omni-dev: action-works/omni-dev-commit-check@1.0.0
-      workflows:
-        commit-validation:
-          jobs:
-            - omni-dev/commit-check:
-                strict: true
-                guidelines: .github/commit-guidelines.md
-                context: anthropic-credentials
-
-  custom-commands:
-    description: Using commands separately for more control
-    usage:
-      version: 2.1
-      orbs:
-        omni-dev: action-works/omni-dev-commit-check@1.0.0
-        rust: circleci/rust@1.6.1
-      jobs:
-        custom-check:
-          docker:
-            - image: cimg/rust:1.83
-          steps:
-            - checkout
-            - rust/install
-            - omni-dev/install:
-                version: "0.12.0"
-            - omni-dev/check:
-                format: json
-                verbose: true
-            - run:
-                name: Process results
-                command: echo "Custom post-processing here"
-      workflows:
-        commit-validation:
-          jobs:
-            - custom-check:
-                context: anthropic-credentials
